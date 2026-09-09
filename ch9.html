@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第 9 章 物件導向｜Python 程式設計講義</title>
+<meta name="description" content="《一步到位！Python 程式設計》第四版 第 9 章 物件導向 講義掃描本">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600&family=Noto+Serif+TC:wght@700&family=JetBrains+Mono:wght@500;600&display=swap">
+<style>
+:root{--bg:#F7F6F2;--panel:#FFFFFF;--ink:#1E2229;--muted:#6A7482;--line:#E3E1DA;
+--acc:#2F6DB5;--acc-ink:#FFFFFF;--mark:#F5C542;--mark-ink:#1E2229;--hover:#EEF3FA;
+--shadow:0 2px 14px rgba(30,34,41,.14)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15181D;--panel:#1C2026;
+--ink:#E6E8EB;--muted:#9AA4B1;--line:#2C323B;--acc:#6FA3E8;--acc-ink:#0F1520;--mark:#E2B93B;
+--mark-ink:#1A1206;--hover:#242B35;--shadow:0 2px 14px rgba(0,0,0,.5)}}
+:root[data-theme="dark"]{--bg:#15181D;--panel:#1C2026;--ink:#E6E8EB;--muted:#9AA4B1;--line:#2C323B;
+--acc:#6FA3E8;--acc-ink:#0F1520;--mark:#E2B93B;--mark-ink:#1A1206;--hover:#242B35;
+--shadow:0 2px 14px rgba(0,0,0,.5)}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-size:14px;
+font-family:"Noto Sans TC",system-ui,-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif}
+a{color:var(--acc)}
+img{max-width:100%}
+
+#side{position:fixed;left:0;top:0;bottom:0;width:322px;background:var(--panel);
+border-right:1px solid var(--line);overflow:auto;padding:14px 10px 40px;transition:transform .2s}
+.brand{padding:4px 8px 10px;text-decoration:none;color:inherit;display:block}
+.brand .eyebrow{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.brand h1{font-family:"Noto Serif TC",Georgia,serif;font-weight:700;font-size:19px;
+line-height:1.3;margin:5px 0 0;text-wrap:balance}
+.brand h1 b{color:var(--acc);font-family:"JetBrains Mono",ui-monospace,monospace;
+font-weight:600;margin-right:7px}
+#q{width:100%;padding:7px 9px;border:1px solid var(--line);border-radius:6px;
+background:var(--bg);color:var(--ink);font:inherit;margin:6px 0 10px}
+#q:focus{outline:2px solid var(--acc);outline-offset:1px}
+.n{list-style:none;margin:0;padding:0}.n .n{padding-left:15px}.n li{margin:1px 0}
+.row{display:flex;align-items:center;gap:5px;padding:5px 7px;border-radius:5px;cursor:pointer;
+line-height:1.35;color:inherit;text-decoration:none}
+.row:hover{background:var(--hover)}
+.row:focus-visible{outline:2px solid var(--acc);outline-offset:-2px}
+.row.cur{background:var(--acc);color:var(--acc-ink)}
+.row .k{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12px;color:var(--muted);
+flex:none;min-width:2.4em}
+.row.cur .k{color:var(--acc-ink)}
+.tg{width:14px;flex:none;color:var(--muted);font-size:10px;text-align:center;user-select:none}
+.row.cur .tg{color:var(--acc-ink)}
+.lvl0>.row{font-weight:600}
+.lvl2>.row{font-size:13px}
+li.closed>ul{display:none}
+.ext>.row::after{content:"↗";margin-left:auto;font-size:11px;color:var(--muted)}
+.sec{margin:16px 8px 5px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+#main{margin-left:322px;min-height:100vh;display:flex;flex-direction:column}
+#bar{position:sticky;top:0;z-index:5;background:var(--panel);border-bottom:1px solid var(--line);
+display:flex;align-items:center;gap:8px;padding:8px 14px;flex-wrap:wrap}
+#bar button,#bar select{border:1px solid var(--line);background:var(--panel);color:var(--ink);
+border-radius:6px;padding:5px 11px;cursor:pointer;font:inherit}
+#bar button:hover,#bar select:hover{background:var(--hover)}
+#bar button:focus-visible,#bar select:focus-visible{outline:2px solid var(--acc)}
+#pg{font-variant-numeric:tabular-nums;display:flex;align-items:center;gap:7px}
+#pin{width:56px;text-align:center;border:1px solid var(--line);border-radius:6px;padding:4px;
+background:var(--bg);color:var(--ink);font:inherit}
+#lab{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:13px;background:var(--mark);
+color:var(--mark-ink);padding:2px 8px;border-radius:4px;min-width:3.4em;text-align:center}
+#crumb{flex:1;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:120px}
+#view{flex:1;display:flex;justify-content:center;align-items:flex-start;padding:18px}
+#view img{height:auto;background:#fff;box-shadow:var(--shadow);border-radius:2px}
+#view.fit img{max-height:calc(100vh - 94px);width:auto}
+#menu{display:none}
+@media (max-width:860px){#side{transform:translateX(-100%);z-index:10;width:min(322px,88vw)}
+body.open #side{transform:none}#main{margin-left:0}#menu{display:inline-block}#crumb{display:none}}
+@media (prefers-reduced-motion:reduce){#side{transition:none}}
+</style>
+</head>
+<body>
+<nav id="side" aria-label="章節目錄">
+  <a class="brand" href="index.html">
+    <span class="eyebrow">一步到位！Python 程式設計 · 第四版</span>
+    <h1><b>9</b>物件導向</h1>
+  </a>
+  <input id="q" type="search" placeholder="搜尋章節…" aria-label="搜尋章節" oninput="filterTree(this.value)">
+  <ul class="n" id="tree"></ul>
+  <div class="sec">導覽</div>
+  <a class="row" href="index.html"><span class="tg">↩</span><span class="k"></span><span>回總目錄</span></a>
+</nav>
+<div id="main">
+  <div id="bar">
+    <button id="menu" onclick="document.body.classList.toggle('open')">☰ 目錄</button>
+    <button onclick="go(cur-1)">‹ 上一頁</button>
+    <button onclick="go(cur+1)">下一頁 ›</button>
+    <span id="pg">第 <input id="pin" value="1" aria-label="頁碼" onchange="go(+this.value-1)"> / 49
+      <span id="lab"></span></span>
+    <span id="crumb"></span>
+    <select aria-label="切換章節" onchange="location.href=this.value"><option value="ch2.html">第 2 章 型別、變數與運算子</option><option value="ch3.html">第 3 章 數值與字串處理</option><option value="ch4.html">第 4 章 流程控制</option><option value="ch5.html">第 5 章 函式</option><option value="ch6.html">第 6 章 list、tuple、set 與 dict</option><option value="ch9.html" selected>第 9 章 物件導向</option></select>
+    <button onclick="document.getElementById('view').classList.toggle('fit')">整頁 / 寬度</button>
+  </div>
+  <div id="view"><img id="img" alt="講義頁面"></div>
+</div>
+<script>
+const PAGES=["000.jpg", "001.jpg", "002.jpg", "003.jpg", "004.jpg", "005.jpg", "006.jpg", "007.jpg", "008.jpg", "009.jpg", "010.jpg", "205.jpg", "206.jpg", "207.jpg", "208.jpg", "209.jpg", "210.jpg", "211.jpg", "212.jpg", "213.jpg", "214.jpg", "215.jpg", "216.jpg", "217.jpg", "218.jpg", "219.jpg", "220.jpg", "221.jpg", "222.jpg", "223.jpg", "224.jpg", "225.jpg", "226.jpg", "227.jpg", "228.jpg", "229.jpg", "230.jpg", "231.jpg", "232.jpg", "233.jpg", "234.jpg", "235.jpg", "236.jpg", "237.jpg", "238.jpg", "239.jpg", "240.jpg", "241.jpg", "242.jpg"];
+const LABELS={"0": "封面", "1": "目錄 1", "2": "目錄 2", "3": "目錄 3", "4": "目錄 4", "5": "目錄 5", "6": "目錄 6", "7": "目錄 7", "8": "目錄 8", "9": "目錄 9", "10": "目錄 10", "11": "第 9 章", "12": "9-2", "13": "9-3", "14": "9-4", "15": "9-5", "16": "9-6", "17": "9-7", "18": "9-8", "19": "9-9", "20": "9-10", "21": "9-11", "22": "9-12", "23": "9-13", "24": "9-14", "25": "9-15", "26": "9-16", "27": "9-17", "28": "9-18", "29": "9-19", "30": "9-20", "31": "9-21", "32": "9-22", "33": "9-23", "34": "9-24", "35": "9-25", "36": "9-26", "37": "9-27", "38": "9-28", "39": "9-29", "40": "9-30", "41": "9-31", "42": "9-32", "43": "9-33", "44": "9-34", "45": "9-35", "46": "9-36", "47": "9-37", "48": "9-38"};
+const CRUMBS={"0": "一步到位！Python 程式設計（第四版）", "1": "一步到位！Python 程式設計（第四版）", "2": "一步到位！Python 程式設計（第四版）", "3": "一步到位！Python 程式設計（第四版）", "4": "一步到位！Python 程式設計（第四版）", "5": "一步到位！Python 程式設計（第四版）", "6": "一步到位！Python 程式設計（第四版）", "7": "一步到位！Python 程式設計（第四版）", "8": "一步到位！Python 程式設計（第四版）", "9": "一步到位！Python 程式設計（第四版）", "10": "一步到位！Python 程式設計（第四版）", "11": "第 9 章  物件導向", "12": "第 9 章  物件導向　›　9-1 認識物件導向", "13": "第 9 章  物件導向　›　9-1 認識物件導向", "14": "第 9 章  物件導向　›　9-1 認識物件導向", "15": "第 9 章  物件導向　›　9-1 認識物件導向", "16": "第 9 章  物件導向　›　9-2 使用類別與物件", "17": "第 9 章  物件導向　›　9-2-1 定義類別", "18": "第 9 章  物件導向　›　9-2-2 建立物件", "19": "第 9 章  物件導向　›　9-2-2 建立物件", "20": "第 9 章  物件導向　›　9-2-2 建立物件", "21": "第 9 章  物件導向　›　9-2-3 __init__() 方法", "22": "第 9 章  物件導向　›　9-2-3 __init__() 方法", "23": "第 9 章  物件導向　›　9-2-4 匿名物件", "24": "第 9 章  物件導向　›　9-2-5 私有成員 (私有屬性與私有方法)", "25": "第 9 章  物件導向　›　9-2-5 私有成員 (私有屬性與私有方法)", "26": "第 9 章  物件導向　›　9-2-5 私有成員 (私有屬性與私有方法)", "27": "第 9 章  物件導向　›　9-2-5 私有成員 (私有屬性與私有方法)", "28": "第 9 章  物件導向　›　9-3 繼承", "29": "第 9 章  物件導向　›　9-3 繼承", "30": "第 9 章  物件導向　›　9-3-1 定義子類別", "31": "第 9 章  物件導向　›　9-3-1 定義子類別", "32": "第 9 章  物件導向　›　9-3-1 定義子類別", "33": "第 9 章  物件導向　›　9-3-1 定義子類別", "34": "第 9 章  物件導向　›　9-3-2 覆蓋繼承自父類別的方法", "35": "第 9 章  物件導向　›　9-3-2 覆蓋繼承自父類別的方法", "36": "第 9 章  物件導向　›　9-3-3 呼叫父類別內被覆蓋的方法", "37": "第 9 章  物件導向　›　9-3-3 呼叫父類別內被覆蓋的方法", "38": "第 9 章  物件導向　›　9-3-3 呼叫父類別內被覆蓋的方法", "39": "第 9 章  物件導向　›　9-3-4 isinstance() 與 issubclass() 函式", "40": "第 9 章  物件導向　›　9-3-4 isinstance() 與 issubclass() 函式", "41": "第 9 章  物件導向　›　9-3-4 isinstance() 與 issubclass() 函式", "42": "第 9 章  物件導向　›　9-4 多型", "43": "第 9 章  物件導向　›　9-4 多型", "44": "第 9 章  物件導向　›　9-4 多型", "45": "第 9 章  物件導向　›　學習評量", "46": "第 9 章  物件導向　›　學習評量", "47": "第 9 章  物件導向　›　學習評量", "48": "第 9 章  物件導向　›　學習評量"};
+const TREE=[{"t": "封面", "k": "", "p": 0}, {"t": "原書目錄", "k": "", "p": 1, "c": [{"t": "第 1 頁", "k": "", "p": 1}, {"t": "第 2 頁", "k": "", "p": 2}, {"t": "第 3 頁", "k": "", "p": 3}, {"t": "第 4 頁", "k": "", "p": 4}, {"t": "第 5 頁", "k": "", "p": 5}, {"t": "第 6 頁", "k": "", "p": 6}, {"t": "第 7 頁", "k": "", "p": 7}, {"t": "第 8 頁", "k": "", "p": 8}, {"t": "第 9 頁", "k": "", "p": 9}, {"t": "第 10 頁", "k": "", "p": 10}]}, {"t": "型別、變數與運算子", "k": "第2章", "u": "ch2.html"}, {"t": "數值與字串處理", "k": "第3章", "u": "ch3.html"}, {"t": "流程控制", "k": "第4章", "u": "ch4.html"}, {"t": "函式", "k": "第5章", "u": "ch5.html"}, {"t": "list、tuple、set 與 dict", "k": "第6章", "u": "ch6.html"}, {"t": "物件導向", "k": "第9章", "p": 11, "c": [{"t": "認識物件導向", "k": "9-1", "p": 12, "c": []}, {"t": "使用類別與物件", "k": "9-2", "p": 16, "c": [{"t": "定義類別", "k": "9-2-1", "p": 17}, {"t": "建立物件", "k": "9-2-2", "p": 18}, {"t": "__init__() 方法", "k": "9-2-3", "p": 21}, {"t": "匿名物件", "k": "9-2-4", "p": 23}, {"t": "私有成員 (私有屬性與私有方法)", "k": "9-2-5", "p": 24}]}, {"t": "繼承", "k": "9-3", "p": 28, "c": [{"t": "定義子類別", "k": "9-3-1", "p": 30}, {"t": "覆蓋繼承自父類別的方法", "k": "9-3-2", "p": 34}, {"t": "呼叫父類別內被覆蓋的方法", "k": "9-3-3", "p": 36}, {"t": "isinstance() 與 issubclass() 函式", "k": "9-3-4", "p": 39}]}, {"t": "多型", "k": "9-4", "p": 42, "c": []}, {"t": "學習評量", "k": "", "p": 45, "c": []}], "here": 1}];
+const START=11;
+
+let cur=0; const rows={};
+function build(nodes,ul,lvl){
+  for(const n of nodes){
+    const li=document.createElement('li');
+    li.className='lvl'+lvl+(n.c&&n.c.length?' closed':'')+(n.u?' ext':'');
+    let row;
+    if(n.u){row=document.createElement('a');row.href=n.u;row.className='row';}
+    else{row=document.createElement('div');row.className='row';row.tabIndex=0;row.setAttribute('role','button');}
+    const tg=document.createElement('span');tg.className='tg';
+    tg.textContent=(n.c&&n.c.length)?'▸':'';
+    tg.onclick=e=>{e.stopPropagation();e.preventDefault();li.classList.toggle('closed');
+      tg.textContent=li.classList.contains('closed')?'▸':'▾';};
+    const k=document.createElement('span');k.className='k';k.textContent=n.k||'';
+    const t=document.createElement('span');t.textContent=n.t;
+    row.append(tg,k,t);
+    if(!n.u){
+      row.onclick=()=>{go(n.p);if(n.c&&n.c.length){li.classList.remove('closed');tg.textContent='▾';}
+        if(innerWidth<=860)document.body.classList.remove('open');};
+      row.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();row.onclick();}};
+      if(!(n.p in rows)||lvl>=rows[n.p].lvl)rows[n.p]={el:row,li,lvl};
+    }
+    li.append(row);
+    if(n.here){li.classList.remove('closed');tg.textContent='▾';}
+    if(n.c&&n.c.length){const s=document.createElement('ul');s.className='n';build(n.c,s,lvl+1);li.append(s);}
+    ul.append(li);
+  }
+}
+build(TREE,document.getElementById('tree'),0);
+function go(p,push=true){
+  if(p<0||p>=PAGES.length)return;
+  cur=p;
+  document.getElementById('img').src='img/'+PAGES[p];
+  document.getElementById('pin').value=p+1;
+  document.getElementById('lab').textContent=LABELS[p]||'';
+  document.getElementById('crumb').textContent=CRUMBS[p]||'';
+  document.querySelectorAll('.row.cur').forEach(e=>e.classList.remove('cur'));
+  let best=null;
+  for(const k in rows)if(+k<=p&&(best===null||+k>best))best=+k;
+  if(best!==null){
+    const r=rows[best];r.el.classList.add('cur');
+    let li=r.li;
+    while(li&&li.id!=='tree'){
+      if(li.tagName==='LI'){li.classList.remove('closed');
+        const tg=li.querySelector(':scope > .row > .tg');if(tg&&tg.textContent)tg.textContent='▾';}
+      li=li.parentElement;
+    }
+    r.el.scrollIntoView({block:'nearest'});
+  }
+  if(push)history.replaceState(null,'','#p'+(p+1));
+  window.scrollTo(0,0);
+  if(p+1<PAGES.length){const im=new Image();im.src='img/'+PAGES[p+1];}
+}
+function filterTree(q){
+  q=q.trim().toLowerCase();
+  document.querySelectorAll('#tree li').forEach(li=>{
+    li.style.display=(!q||li.textContent.toLowerCase().includes(q))?'':'none';
+    if(q)li.classList.remove('closed');
+  });
+}
+document.addEventListener('keydown',e=>{
+  if(e.target.tagName==='INPUT')return;
+  if(e.key==='ArrowRight'||e.key==='PageDown'){go(cur+1);e.preventDefault();}
+  if(e.key==='ArrowLeft'||e.key==='PageUp'){go(cur-1);e.preventDefault();}
+  if(e.key==='Home')go(0);
+  if(e.key==='End')go(PAGES.length-1);
+});
+const m0=location.hash.match(/p(\d+)/);
+go(m0?+m0[1]-1:START,false);
+
+</script>
+</body>
+</html>

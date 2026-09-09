@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python 程式設計講義</title>
+<meta name="description" content="《一步到位！Python 程式設計》第四版 講義掃描本，依章節線上閱讀。">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600&family=Noto+Serif+TC:wght@700&family=JetBrains+Mono:wght@500;600&display=swap">
+<style>
+:root{--bg:#F7F6F2;--panel:#FFFFFF;--ink:#1E2229;--muted:#6A7482;--line:#E3E1DA;
+--acc:#2F6DB5;--acc-ink:#FFFFFF;--mark:#F5C542;--mark-ink:#1E2229;--hover:#EEF3FA;
+--shadow:0 2px 14px rgba(30,34,41,.14)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15181D;--panel:#1C2026;
+--ink:#E6E8EB;--muted:#9AA4B1;--line:#2C323B;--acc:#6FA3E8;--acc-ink:#0F1520;--mark:#E2B93B;
+--mark-ink:#1A1206;--hover:#242B35;--shadow:0 2px 14px rgba(0,0,0,.5)}}
+:root[data-theme="dark"]{--bg:#15181D;--panel:#1C2026;--ink:#E6E8EB;--muted:#9AA4B1;--line:#2C323B;
+--acc:#6FA3E8;--acc-ink:#0F1520;--mark:#E2B93B;--mark-ink:#1A1206;--hover:#242B35;
+--shadow:0 2px 14px rgba(0,0,0,.5)}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-size:14px;
+font-family:"Noto Sans TC",system-ui,-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif}
+a{color:var(--acc)}
+img{max-width:100%}
+
+.wrap{max-width:1060px;margin:0 auto;padding:40px 22px 64px}
+.hero{display:grid;grid-template-columns:196px 1fr;gap:34px;align-items:end;margin-bottom:16px}
+.hero img{width:196px;border-radius:3px;box-shadow:var(--shadow)}
+.hero h1{font-family:"Noto Serif TC",Georgia,serif;font-size:33px;line-height:1.26;
+margin:7px 0 12px;text-wrap:balance}
+.hero p{color:var(--muted);margin:0 0 10px;max-width:58ch;line-height:1.65}
+.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.start{display:inline-block;margin-top:2px;background:var(--acc);color:var(--acc-ink);
+text-decoration:none;padding:9px 18px;border-radius:6px;font-weight:500}
+.start:hover{filter:brightness(1.08)}
+.start:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.part{margin:34px 0 12px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+color:var(--muted);display:flex;align-items:center;gap:13px}
+.part::after{content:"";flex:1;height:1px;background:var(--line)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(298px,1fr));gap:12px}
+.card{display:flex;gap:15px;align-items:flex-start;padding:14px 17px;background:var(--panel);
+border:1px solid var(--line);border-radius:8px;text-decoration:none;color:inherit}
+a.card:hover{border-color:var(--acc);background:var(--hover)}
+a.card:focus-visible{outline:2px solid var(--acc);outline-offset:1px}
+.card .num{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:26px;font-weight:600;
+color:var(--acc);line-height:1.05;min-width:1.6em;font-variant-numeric:tabular-nums}
+.card.off{opacity:.5}.card.off .num{color:var(--muted)}
+.name{font-weight:600;font-size:15px;line-height:1.35}
+.meta{color:var(--muted);font-size:12.5px;margin-top:4px}
+.note{margin-top:36px;padding:15px 17px;border-left:3px solid var(--mark);background:var(--panel);
+color:var(--muted);line-height:1.7;font-size:13px}
+@media(max-width:620px){.hero{grid-template-columns:1fr}.hero img{width:148px}.hero h1{font-size:27px}}
+
+.card>span{display:block}.card .name,.card .meta{display:block}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <img src="img/000.jpg" alt="書籍封面">
+    <div>
+      <p class="eyebrow">講義掃描本 · 陳惠貞 著 · 旗標出版</p>
+      <h1>一步到位！Python 程式設計（第四版）</h1>
+      <p>依章節分頁閱讀。每一章都附上封面與原書目錄，左側章節樹可直接跳到任何一節，
+      鍵盤 ← → 翻頁，手機平板也能看。</p>
+      <a class="start" href="ch2.html">開始閱讀</a>
+    </div>
+  </div>
+  <div class="part">Part 1 基礎篇</div>
+  <div class="grid"><div class="card off"><span class="num">1</span><span><span class="name">開始撰寫 Python 程式</span><span class="meta">5 節 · 未收錄</span></span></div><a class="card" href="ch2.html"><span class="num">2</span><span><span class="name">型別、變數與運算子</span><span class="meta">6 節 · 34 頁</span></span></a><a class="card" href="ch3.html"><span class="num">3</span><span><span class="name">數值與字串處理</span><span class="meta">5 節 · 38 頁</span></span></a><a class="card" href="ch4.html"><span class="num">4</span><span><span class="name">流程控制</span><span class="meta">5 節 · 34 頁</span></span></a><a class="card" href="ch5.html"><span class="num">5</span><span><span class="name">函式</span><span class="meta">9 節 · 36 頁</span></span></a><a class="card" href="ch6.html"><span class="num">6</span><span><span class="name">list、tuple、set 與 dict</span><span class="meta">4 節 · 52 頁</span></span></a><div class="card off"><span class="num">7</span><span><span class="name">檔案存取</span><span class="meta">5 節 · 未收錄</span></span></div><div class="card off"><span class="num">8</span><span><span class="name">例外處理</span><span class="meta">2 節 · 未收錄</span></span></div><a class="card" href="ch9.html"><span class="num">9</span><span><span class="name">物件導向</span><span class="meta">4 節 · 38 頁</span></span></a><div class="card off"><span class="num">10</span><span><span class="name">模組與套件</span><span class="meta">3 節 · 未收錄</span></span></div></div>
+  <div class="part">Part 2 實戰篇</div>
+  <div class="grid"><div class="card off"><span class="num">11</span><span><span class="name">圖片處理與 QR 碼 － pillow、qrcode</span><span class="meta">2 節 · 未收錄</span></span></div><div class="card off"><span class="num">12</span><span><span class="name">陣列與資料運算 － NumPy</span><span class="meta">11 節 · 未收錄</span></span></div><div class="card off"><span class="num">13</span><span><span class="name">繪製圖表 － matplotlib</span><span class="meta">6 節 · 未收錄</span></span></div><div class="card off"><span class="num">14</span><span><span class="name">科學計算 － SciPy</span><span class="meta">4 節 · 未收錄</span></span></div><div class="card off"><span class="num">15</span><span><span class="name">資料分析 － pandas</span><span class="meta">3 節 · 未收錄</span></span></div><div class="card off"><span class="num">16</span><span><span class="name">機器學習 － scikit-learn</span><span class="meta">6 節 · 未收錄</span></span></div><div class="card off"><span class="num">17</span><span><span class="name">網路爬蟲 － Requests、Beautiful Soup</span><span class="meta">3 節 · 未收錄</span></span></div></div>
+  <p class="note">目前收錄第 2、3、4、5、6、9 章，共 232 頁內文。
+  淡色的章節尚未掃描，補拍後即可加入。</p>
+</div>
+</body>
+</html>
