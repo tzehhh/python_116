@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python 程式設計講義｜閱讀</title>
+<meta name="description" content="《一步到位！Python 程式設計》第四版 講義掃描本，全書連續閱讀。">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600&family=Noto+Serif+TC:wght@700&family=JetBrains+Mono:wght@500;600&display=swap">
+<style>
+:root{--bg:#F7F6F2;--panel:#FFFFFF;--ink:#1E2229;--muted:#6A7482;--line:#E3E1DA;
+--acc:#2F6DB5;--acc-ink:#FFFFFF;--mark:#F5C542;--mark-ink:#1E2229;--hover:#EEF3FA;
+--shadow:0 2px 14px rgba(30,34,41,.14)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15181D;--panel:#1C2026;
+--ink:#E6E8EB;--muted:#9AA4B1;--line:#2C323B;--acc:#6FA3E8;--acc-ink:#0F1520;--mark:#E2B93B;
+--mark-ink:#1A1206;--hover:#242B35;--shadow:0 2px 14px rgba(0,0,0,.5)}}
+:root[data-theme="dark"]{--bg:#15181D;--panel:#1C2026;--ink:#E6E8EB;--muted:#9AA4B1;--line:#2C323B;
+--acc:#6FA3E8;--acc-ink:#0F1520;--mark:#E2B93B;--mark-ink:#1A1206;--hover:#242B35;
+--shadow:0 2px 14px rgba(0,0,0,.5)}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-size:14px;
+font-family:"Noto Sans TC",system-ui,-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif}
+a{color:var(--acc)}
+img{max-width:100%}
+
+:root{--sw:322px}
+#side{position:fixed;left:0;top:0;bottom:0;width:var(--sw);background:var(--panel);
+border-right:1px solid var(--line);overflow:auto;padding:14px 10px 40px;transition:transform .2s;z-index:12}
+.brand{padding:4px 8px 10px;text-decoration:none;color:inherit;display:block}
+.brand .eyebrow{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.brand h1{font-family:"Noto Serif TC",Georgia,serif;font-weight:700;font-size:19px;
+line-height:1.3;margin:5px 0 0;text-wrap:balance}
+#q{width:100%;padding:7px 9px;border:1px solid var(--line);border-radius:6px;
+background:var(--bg);color:var(--ink);font:inherit;margin:6px 0 10px}
+#q:focus{outline:2px solid var(--acc);outline-offset:1px}
+.n{list-style:none;margin:0;padding:0}.n .n{padding-left:15px}.n li{margin:1px 0}
+.row{display:flex;align-items:center;gap:5px;padding:5px 7px;border-radius:5px;cursor:pointer;
+line-height:1.35;color:inherit;text-decoration:none}
+.row:hover{background:var(--hover)}
+.row:focus-visible{outline:2px solid var(--acc);outline-offset:-2px}
+.row.cur{background:var(--acc);color:var(--acc-ink)}
+.row .k{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12px;color:var(--muted);
+flex:none;min-width:2.4em}
+.row.cur .k{color:var(--acc-ink)}
+.tg{width:14px;flex:none;color:var(--muted);font-size:10px;text-align:center;user-select:none;
+transition:transform .15s}
+.row.cur .tg{color:var(--acc-ink)}
+.lvl0>.row{font-weight:600}
+.lvl2>.row{font-size:13px}
+li.closed>ul{display:none}
+.sec{margin:16px 8px 5px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+#main{margin-left:var(--sw);min-height:100vh;display:flex;flex-direction:column}
+#bar{position:sticky;top:0;z-index:6;background:var(--panel);border-bottom:1px solid var(--line);
+display:flex;align-items:center;gap:8px;padding:8px 14px;flex-wrap:wrap}
+#bar button,#bar select{border:1px solid var(--line);background:var(--panel);color:var(--ink);
+border-radius:6px;padding:5px 11px;cursor:pointer;font:inherit}
+#bar button:hover,#bar select:hover{background:var(--hover)}
+#bar button:focus-visible,#bar select:focus-visible{outline:2px solid var(--acc)}
+#pg{font-variant-numeric:tabular-nums;display:flex;align-items:center;gap:7px}
+#pin{width:60px;text-align:center;border:1px solid var(--line);border-radius:6px;padding:4px;
+background:var(--bg);color:var(--ink);font:inherit}
+#lab{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:13px;background:var(--mark);
+color:var(--mark-ink);padding:2px 8px;border-radius:4px;min-width:3.4em;text-align:center}
+#crumb{flex:1;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:120px}
+#view{flex:1;display:flex;justify-content:center;align-items:flex-start;padding:18px}
+#view img{height:auto;background:#fff;box-shadow:var(--shadow);border-radius:2px}
+#view.fit img{max-height:calc(100vh - 94px);width:auto}
+/* 左右兩側的隱形翻頁區 */
+.zone{position:fixed;top:58px;bottom:0;width:clamp(58px,11vw,150px);z-index:4;border:0;padding:0;
+background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent;
+display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:34px;
+line-height:1;opacity:0;transition:opacity .18s}
+.zone:hover,.zone:focus-visible{opacity:.42;background:linear-gradient(var(--dir),
+rgba(128,128,128,.16),rgba(128,128,128,0))}
+.zone:focus-visible{outline:2px solid var(--acc);outline-offset:-3px;opacity:.6}
+.zone[disabled]{cursor:default}
+.zone[disabled]:hover{opacity:0;background:transparent}
+#zL{left:var(--sw);--dir:to right}
+#zR{right:0;--dir:to left}
+#menu{display:none}
+@media (max-width:860px){:root{--sw:0px}
+#side{transform:translateX(-100%);width:min(322px,88vw)}
+body.open #side{transform:none}#menu{display:inline-block}#crumb{display:none}
+.zone{opacity:0}}
+@media (prefers-reduced-motion:reduce){#side,.zone{transition:none}}
+</style>
+</head>
+<body>
+<nav id="side" aria-label="章節目錄">
+  <a class="brand" href="index.html">
+    <span class="eyebrow">一步到位！Python 程式設計 · 第四版</span>
+    <h1>講義掃描本</h1>
+  </a>
+  <input id="q" type="search" placeholder="搜尋章節…" aria-label="搜尋章節" oninput="filterTree(this.value)">
+  <ul class="n" id="tree"></ul>
+  <div class="sec">導覽</div>
+  <a class="row" href="index.html"><span class="tg">↩</span><span class="k"></span><span>回總目錄</span></a>
+</nav>
+<div id="main">
+  <div id="bar">
+    <button id="menu" onclick="document.body.classList.toggle('open')">☰ 目錄</button>
+    <span id="pg">第 <input id="pin" value="1" aria-label="頁碼" onchange="go(+this.value-1,true,false)"> / 243
+      <span id="lab"></span></span>
+    <span id="crumb"></span>
+    <select aria-label="跳到章節" onchange="if(this.value!==''){go(+this.value,true,false);this.value='';}"><option value="">跳到章節…</option><option value="11">第 2 章 型別、變數與運算子</option><option value="45">第 3 章 數值與字串處理</option><option value="83">第 4 章 流程控制</option><option value="117">第 5 章 函式</option><option value="153">第 6 章 list、tuple、set 與 dict</option><option value="205">第 9 章 物件導向</option></select>
+    <button onclick="document.getElementById('view').classList.toggle('fit')">整頁 / 寬度</button>
+  </div>
+  <div id="view"><img id="img" alt="講義頁面"></div>
+</div>
+<button class="zone" id="zL" aria-label="上一頁" onclick="step(-1)">‹</button>
+<button class="zone" id="zR" aria-label="下一頁" onclick="step(1)">›</button>
+<script>
+const PAGES=["000.jpg", "001.jpg", "002.jpg", "003.jpg", "004.jpg", "005.jpg", "006.jpg", "007.jpg", "008.jpg", "009.jpg", "010.jpg", "011.jpg", "012.jpg", "013.jpg", "014.jpg", "015.jpg", "016.jpg", "017.jpg", "018.jpg", "019.jpg", "020.jpg", "021.jpg", "022.jpg", "023.jpg", "024.jpg", "025.jpg", "026.jpg", "027.jpg", "028.jpg", "029.jpg", "030.jpg", "031.jpg", "032.jpg", "033.jpg", "034.jpg", "035.jpg", "036.jpg", "037.jpg", "038.jpg", "039.jpg", "040.jpg", "041.jpg", "042.jpg", "043.jpg", "044.jpg", "045.jpg", "046.jpg", "047.jpg", "048.jpg", "049.jpg", "050.jpg", "051.jpg", "052.jpg", "053.jpg", "054.jpg", "055.jpg", "056.jpg", "057.jpg", "058.jpg", "059.jpg", "060.jpg", "061.jpg", "062.jpg", "063.jpg", "064.jpg", "065.jpg", "066.jpg", "067.jpg", "068.jpg", "069.jpg", "070.jpg", "071.jpg", "072.jpg", "073.jpg", "074.jpg", "075.jpg", "076.jpg", "077.jpg", "078.jpg", "079.jpg", "080.jpg", "081.jpg", "082.jpg", "083.jpg", "084.jpg", "085.jpg", "086.jpg", "087.jpg", "088.jpg", "089.jpg", "090.jpg", "091.jpg", "092.jpg", "093.jpg", "094.jpg", "095.jpg", "096.jpg", "097.jpg", "098.jpg", "099.jpg", "100.jpg", "101.jpg", "102.jpg", "103.jpg", "104.jpg", "105.jpg", "106.jpg", "107.jpg", "108.jpg", "109.jpg", "110.jpg", "111.jpg", "112.jpg", "113.jpg", "114.jpg", "115.jpg", "116.jpg", "117.jpg", "118.jpg", "119.jpg", "120.jpg", "121.jpg", "122.jpg", "123.jpg", "124.jpg", "125.jpg", "126.jpg", "127.jpg", "128.jpg", "129.jpg", "130.jpg", "131.jpg", "132.jpg", "133.jpg", "134.jpg", "135.jpg", "136.jpg", "137.jpg", "138.jpg", "139.jpg", "140.jpg", "141.jpg", "142.jpg", "143.jpg", "144.jpg", "145.jpg", "146.jpg", "147.jpg", "148.jpg", "149.jpg", "150.jpg", "151.jpg", "152.jpg", "153.jpg", "154.jpg", "155.jpg", "156.jpg", "157.jpg", "158.jpg", "159.jpg", "160.jpg", "161.jpg", "162.jpg", "163.jpg", "164.jpg", "165.jpg", "166.jpg", "167.jpg", "168.jpg", "169.jpg", "170.jpg", "171.jpg", "172.jpg", "173.jpg", "174.jpg", "175.jpg", "176.jpg", "177.jpg", "178.jpg", "179.jpg", "180.jpg", "181.jpg", "182.jpg", "183.jpg", "184.jpg", "185.jpg", "186.jpg", "187.jpg", "188.jpg", "189.jpg", "190.jpg", "191.jpg", "192.jpg", "193.jpg", "194.jpg", "195.jpg", "196.jpg", "197.jpg", "198.jpg", "199.jpg", "200.jpg", "201.jpg", "202.jpg", "203.jpg", "204.jpg", "205.jpg", "206.jpg", "207.jpg", "208.jpg", "209.jpg", "210.jpg", "211.jpg", "212.jpg", "213.jpg", "214.jpg", "215.jpg", "216.jpg", "217.jpg", "218.jpg", "219.jpg", "220.jpg", "221.jpg", "222.jpg", "223.jpg", "224.jpg", "225.jpg", "226.jpg", "227.jpg", "228.jpg", "229.jpg", "230.jpg", "231.jpg", "232.jpg", "233.jpg", "234.jpg", "235.jpg", "236.jpg", "237.jpg", "238.jpg", "239.jpg", "240.jpg", "241.jpg", "242.jpg"];
+const LABELS={"0": "封面", "1": "目錄 1", "2": "目錄 2", "3": "目錄 3", "4": "目錄 4", "5": "目錄 5", "6": "目錄 6", "7": "目錄 7", "8": "目錄 8", "9": "目錄 9", "10": "目錄 10", "11": "第 2 章", "12": "2-2", "13": "2-3", "14": "2-4", "15": "2-5", "16": "2-6", "17": "2-7", "18": "2-8", "19": "2-9", "20": "2-10", "21": "2-11", "22": "2-12", "23": "2-13", "24": "2-14", "25": "2-15", "26": "2-16", "27": "2-17", "28": "2-18", "29": "2-19", "30": "2-20", "31": "2-21", "32": "2-22", "33": "2-23", "34": "2-24", "35": "2-25", "36": "2-26", "37": "2-27", "38": "2-28", "39": "2-29", "40": "2-30", "41": "2-31", "42": "2-32", "43": "2-33", "44": "2-34", "45": "第 3 章", "46": "3-2", "47": "3-3", "48": "3-4", "49": "3-5", "50": "3-6", "51": "3-7", "52": "3-8", "53": "3-9", "54": "3-10", "55": "3-11", "56": "3-12", "57": "3-13", "58": "3-14", "59": "3-15", "60": "3-16", "61": "3-17", "62": "3-18", "63": "3-19", "64": "3-20", "65": "3-21", "66": "3-22", "67": "3-23", "68": "3-24", "69": "3-25", "70": "3-26", "71": "3-27", "72": "3-28", "73": "3-29", "74": "3-30", "75": "3-31", "76": "3-32", "77": "3-33", "78": "3-34", "79": "3-35", "80": "3-36", "81": "3-37", "82": "3-38", "83": "第 4 章", "84": "4-2", "85": "4-3", "86": "4-4", "87": "4-5", "88": "4-6", "89": "4-7", "90": "4-8", "91": "4-9", "92": "4-10", "93": "4-11", "94": "4-12", "95": "4-13", "96": "4-14", "97": "4-15", "98": "4-16", "99": "4-17", "100": "4-18", "101": "4-19", "102": "4-20", "103": "4-21", "104": "4-22", "105": "4-23", "106": "4-24", "107": "4-25", "108": "4-26", "109": "4-27", "110": "4-28", "111": "4-29", "112": "4-30", "113": "4-31", "114": "4-32", "115": "4-33", "116": "4-34", "117": "第 5 章", "118": "5-2", "119": "5-3", "120": "5-4", "121": "5-5", "122": "5-6", "123": "5-7", "124": "5-8", "125": "5-9", "126": "5-10", "127": "5-11", "128": "5-12", "129": "5-13", "130": "5-14", "131": "5-15", "132": "5-16", "133": "5-17", "134": "5-18", "135": "5-19", "136": "5-20", "137": "5-21", "138": "5-22", "139": "5-23", "140": "5-24", "141": "5-25", "142": "5-26", "143": "5-27", "144": "5-28", "145": "5-29", "146": "5-30", "147": "5-31", "148": "5-32", "149": "5-33", "150": "5-34", "151": "5-35", "152": "5-36", "153": "第 6 章", "154": "6-2", "155": "6-3", "156": "6-4", "157": "6-5", "158": "6-6", "159": "6-7", "160": "6-8", "161": "6-9", "162": "6-10", "163": "6-11", "164": "6-12", "165": "6-13", "166": "6-14", "167": "6-15", "168": "6-16", "169": "6-17", "170": "6-18", "171": "6-19", "172": "6-20", "173": "6-21", "174": "6-22", "175": "6-23", "176": "6-24", "177": "6-25", "178": "6-26", "179": "6-27", "180": "6-28", "181": "6-29", "182": "6-30", "183": "6-31", "184": "6-32", "185": "6-33", "186": "6-34", "187": "6-35", "188": "6-36", "189": "6-37", "190": "6-38", "191": "6-39", "192": "6-40", "193": "6-41", "194": "6-42", "195": "6-43", "196": "6-44", "197": "6-45", "198": "6-46", "199": "6-47", "200": "6-48", "201": "6-49", "202": "6-50", "203": "6-51", "204": "6-52", "205": "第 9 章", "206": "9-2", "207": "9-3", "208": "9-4", "209": "9-5", "210": "9-6", "211": "9-7", "212": "9-8", "213": "9-9", "214": "9-10", "215": "9-11", "216": "9-12", "217": "9-13", "218": "9-14", "219": "9-15", "220": "9-16", "221": "9-17", "222": "9-18", "223": "9-19", "224": "9-20", "225": "9-21", "226": "9-22", "227": "9-23", "228": "9-24", "229": "9-25", "230": "9-26", "231": "9-27", "232": "9-28", "233": "9-29", "234": "9-30", "235": "9-31", "236": "9-32", "237": "9-33", "238": "9-34", "239": "9-35", "240": "9-36", "241": "9-37", "242": "9-38"};
+const CRUMBS={"0": "一步到位！Python 程式設計（第四版）", "1": "一步到位！Python 程式設計（第四版）", "2": "一步到位！Python 程式設計（第四版）", "3": "一步到位！Python 程式設計（第四版）", "4": "一步到位！Python 程式設計（第四版）", "5": "一步到位！Python 程式設計（第四版）", "6": "一步到位！Python 程式設計（第四版）", "7": "一步到位！Python 程式設計（第四版）", "8": "一步到位！Python 程式設計（第四版）", "9": "一步到位！Python 程式設計（第四版）", "10": "一步到位！Python 程式設計（第四版）", "11": "第 2 章  型別、變數與運算子", "12": "第 2 章  型別、變數與運算子　›　2-1 型別", "13": "第 2 章  型別、變數與運算子　›　2-1-1 數值型別 (int、float、complex、bool)", "14": "第 2 章  型別、變數與運算子　›　2-1-1 數值型別 (int、float、complex、bool)", "15": "第 2 章  型別、變數與運算子　›　2-1-2 字串型別 (str)", "16": "第 2 章  型別、變數與運算子　›　2-1-2 字串型別 (str)", "17": "第 2 章  型別、變數與運算子　›　2-1-3 list (串列)、tuple (序對)、set (集合) 與 dict (字典)", "18": "第 2 章  型別、變數與運算子　›　2-1-3 list (串列)、tuple (序對)、set (集合) 與 dict (字典)", "19": "第 2 章  型別、變數與運算子　›　2-2-1 變數的命名規則", "20": "第 2 章  型別、變數與運算子　›　2-2-2 設定變數的值", "21": "第 2 章  型別、變數與運算子　›　2-2-2 設定變數的值", "22": "第 2 章  型別、變數與運算子　›　2-2-2 設定變數的值", "23": "第 2 章  型別、變數與運算子　›　2-3 常數", "24": "第 2 章  型別、變數與運算子　›　2-4 運算子", "25": "第 2 章  型別、變數與運算子　›　2-4-1 算術運算子", "26": "第 2 章  型別、變數與運算子　›　2-4-1 算術運算子", "27": "第 2 章  型別、變數與運算子　›　2-4-1 算術運算子", "28": "第 2 章  型別、變數與運算子　›　2-4-2 移位運算子", "29": "第 2 章  型別、變數與運算子　›　2-4-3 位元運算子", "30": "第 2 章  型別、變數與運算子　›　2-4-4 比較運算子", "31": "第 2 章  型別、變數與運算子　›　2-4-5 指派運算子", "32": "第 2 章  型別、變數與運算子　›　2-4-6 邏輯運算子", "33": "第 2 章  型別、變數與運算子　›　2-4-6 邏輯運算子", "34": "第 2 章  型別、變數與運算子　›　2-4-7 其它特殊符號", "35": "第 2 章  型別、變數與運算子　›　2-4-8 運算子的優先順序", "36": "第 2 章  型別、變數與運算子　›　2-4-8 運算子的優先順序", "37": "第 2 章  型別、變數與運算子　›　2-5 輸出", "38": "第 2 章  型別、變數與運算子　›　2-6 輸入", "39": "第 2 章  型別、變數與運算子　›　2-6 輸入", "40": "第 2 章  型別、變數與運算子　›　2-6 輸入", "41": "第 2 章  型別、變數與運算子　›　2-6 輸入", "42": "第 2 章  型別、變數與運算子　›　學習評量", "43": "第 2 章  型別、變數與運算子　›　學習評量", "44": "第 2 章  型別、變數與運算子　›　學習評量", "45": "第 3 章  數值與字串處理", "46": "第 3 章  數值與字串處理　›　3-1-1 內建數值函式", "47": "第 3 章  數值與字串處理　›　3-1-1 內建數值函式", "48": "第 3 章  數值與字串處理　›　3-1-1 內建數值函式", "49": "第 3 章  數值與字串處理　›　3-1-2 數學函式", "50": "第 3 章  數值與字串處理　›　3-1-2 數學函式", "51": "第 3 章  數值與字串處理　›　3-1-2 數學函式", "52": "第 3 章  數值與字串處理　›　3-1-2 數學函式", "53": "第 3 章  數值與字串處理　›　3-1-2 數學函式", "54": "第 3 章  數值與字串處理　›　3-1-3 亂數函式", "55": "第 3 章  數值與字串處理　›　3-1-3 亂數函式", "56": "第 3 章  數值與字串處理　›　3-1-3 亂數函式", "57": "第 3 章  數值與字串處理　›　3-2-1 ASCII 與 Unicode", "58": "第 3 章  數值與字串處理　›　3-2-2 跳脫序列", "59": "第 3 章  數值與字串處理　›　3-2-3 內建字串函式", "60": "第 3 章  數值與字串處理　›　3-2-5 重複運算子", "61": "第 3 章  數值與字串處理　›　3-2-7 in 與 not in 運算子", "62": "第 3 章  數值與字串處理　›　3-2-8 索引與切片運算子", "63": "第 3 章  數值與字串處理　›　3-2-8 索引與切片運算子", "64": "第 3 章  數值與字串處理　›　3-2-8 索引與切片運算子", "65": "第 3 章  數值與字串處理　›　3-3 字串處理方法", "66": "第 3 章  數值與字串處理　›　3-3-1 字串轉換方法", "67": "第 3 章  數值與字串處理　›　3-3-2 字串測試方法", "68": "第 3 章  數值與字串處理　›　3-3-2 字串測試方法", "69": "第 3 章  數值與字串處理　›　3-3-3 搜尋子字串方法", "70": "第 3 章  數值與字串處理　›　3-3-4 刪除指定的字元或空白方法", "71": "第 3 章  數值與字串處理　›　3-3-5 格式化方法", "72": "第 3 章  數值與字串處理　›　3-3-5 格式化方法", "73": "第 3 章  數值與字串處理　›　3-3-5 格式化方法", "74": "第 3 章  數值與字串處理　›　3-4 數值與字串格式化", "75": "第 3 章  數值與字串處理　›　3-4 數值與字串格式化", "76": "第 3 章  數值與字串處理　›　3-4 數值與字串格式化", "77": "第 3 章  數值與字串處理　›　3-4 數值與字串格式化", "78": "第 3 章  數值與字串處理　›　3-5 f-string 格式化字串實字", "79": "第 3 章  數值與字串處理　›　3-5 f-string 格式化字串實字", "80": "第 3 章  數值與字串處理　›　學習評量", "81": "第 3 章  數值與字串處理　›　學習評量", "82": "第 3 章  數值與字串處理　›　學習評量", "83": "第 4 章  流程控制", "84": "第 4 章  流程控制　›　4-1 認識流程控制", "85": "第 4 章  流程控制　›　4-2-1 單向 if", "86": "第 4 章  流程控制　›　4-2-1 單向 if", "87": "第 4 章  流程控制　›　4-2-2 雙向 if…else", "88": "第 4 章  流程控制　›　4-2-2 雙向 if…else", "89": "第 4 章  流程控制　›　4-2-2 雙向 if…else", "90": "第 4 章  流程控制　›　4-2-3 多向 if…elif…else", "91": "第 4 章  流程控制　›　4-2-3 多向 if…elif…else", "92": "第 4 章  流程控制　›　4-2-3 多向 if…elif…else", "93": "第 4 章  流程控制　›　4-2-3 多向 if…elif…else", "94": "第 4 章  流程控制　›　4-2-4 巢狀 if", "95": "第 4 章  流程控制　›　4-2-4 巢狀 if", "96": "第 4 章  流程控制　›　4-3 for", "97": "第 4 章  流程控制　›　4-3 for", "98": "第 4 章  流程控制　›　4-3 for", "99": "第 4 章  流程控制　›　4-3 for", "100": "第 4 章  流程控制　›　4-3 for", "101": "第 4 章  流程控制　›　4-3 for", "102": "第 4 章  流程控制　›　4-3 for", "103": "第 4 章  流程控制　›　4-3 for", "104": "第 4 章  流程控制　›　4-3 for", "105": "第 4 章  流程控制　›　4-3 for", "106": "第 4 章  流程控制　›　4-3 for", "107": "第 4 章  流程控制　›　4-4 while", "108": "第 4 章  流程控制　›　4-4 while", "109": "第 4 章  流程控制　›　4-4 while", "110": "第 4 章  流程控制　›　4-4 while", "111": "第 4 章  流程控制　›　4-4 while", "112": "第 4 章  流程控制　›　4-5 break 與 continue 敘述", "113": "第 4 章  流程控制　›　4-5 break 與 continue 敘述", "114": "第 4 章  流程控制　›　4-5 break 與 continue 敘述", "115": "第 4 章  流程控制　›　學習評量", "116": "第 4 章  流程控制　›　學習評量", "117": "第 5 章  函式", "118": "第 5 章  函式　›　5-1 認識函式", "119": "第 5 章  函式　›　5-2 定義函式", "120": "第 5 章  函式　›　5-2 定義函式", "121": "第 5 章  函式　›　5-3 呼叫函式", "122": "第 5 章  函式　›　5-3 呼叫函式", "123": "第 5 章  函式　›　5-3 呼叫函式", "124": "第 5 章  函式　›　5-4-1 參數傳遞方式", "125": "第 5 章  函式　›　5-4-1 參數傳遞方式", "126": "第 5 章  函式　›　5-4-2 關鍵字引數", "127": "第 5 章  函式　›　5-4-3 預設引數值", "128": "第 5 章  函式　›　5-4-4 任意引數串列", "129": "第 5 章  函式　›　5-4-4 任意引數串列", "130": "第 5 章  函式　›　5-4-4 任意引數串列", "131": "第 5 章  函式　›　5-5 函式的傳回值", "132": "第 5 章  函式　›　5-5 函式的傳回值", "133": "第 5 章  函式　›　5-6 全域變數與區域變數", "134": "第 5 章  函式　›　5-7 遞迴函式", "135": "第 5 章  函式　›　5-7 遞迴函式", "136": "第 5 章  函式　›　5-7 遞迴函式", "137": "第 5 章  函式　›　5-7 遞迴函式", "138": "第 5 章  函式　›　5-8 lambda 運算式", "139": "第 5 章  函式　›　5-9-1 time 模組", "140": "第 5 章  函式　›　5-9-1 time 模組", "141": "第 5 章  函式　›　5-9-1 time 模組", "142": "第 5 章  函式　›　5-9-1 time 模組", "143": "第 5 章  函式　›　5-9-1 time 模組", "144": "第 5 章  函式　›　5-9-2 calendar 模組", "145": "第 5 章  函式　›　5-9-2 calendar 模組", "146": "第 5 章  函式　›　5-9-2 calendar 模組", "147": "第 5 章  函式　›　5-9-2 calendar 模組", "148": "第 5 章  函式　›　5-9-2 calendar 模組", "149": "第 5 章  函式　›　學習評量", "150": "第 5 章  函式　›　學習評量", "151": "第 5 章  函式　›　學習評量", "152": "第 5 章  函式　›　學習評量", "153": "第 6 章  list、tuple、set 與 dict", "154": "第 6 章  list、tuple、set 與 dict　›　6-1-1 建立串列", "155": "第 6 章  list、tuple、set 與 dict　›　6-1-1 建立串列", "156": "第 6 章  list、tuple、set 與 dict　›　6-1-2 內建函式", "157": "第 6 章  list、tuple、set 與 dict　›　6-1-5 比較運算子", "158": "第 6 章  list、tuple、set 與 dict　›　6-1-7 索引與切片運算子", "159": "第 6 章  list、tuple、set 與 dict　›　6-1-7 索引與切片運算子", "160": "第 6 章  list、tuple、set 與 dict　›　6-1-7 索引與切片運算子", "161": "第 6 章  list、tuple、set 與 dict　›　6-1-7 索引與切片運算子", "162": "第 6 章  list、tuple、set 與 dict　›　6-1-8 串列處理方法", "163": "第 6 章  list、tuple、set 與 dict　›　6-1-8 串列處理方法", "164": "第 6 章  list、tuple、set 與 dict　›　6-1-8 串列處理方法", "165": "第 6 章  list、tuple、set 與 dict　›　6-1-9 串列推導式", "166": "第 6 章  list、tuple、set 與 dict　›　6-1-9 串列推導式", "167": "第 6 章  list、tuple、set 與 dict　›　6-1-9 串列推導式", "168": "第 6 章  list、tuple、set 與 dict　›　6-1-10 del 敘述", "169": "第 6 章  list、tuple、set 與 dict　›　6-1-11 二維串列", "170": "第 6 章  list、tuple、set 與 dict　›　6-1-11 二維串列", "171": "第 6 章  list、tuple、set 與 dict　›　6-1-11 二維串列", "172": "第 6 章  list、tuple、set 與 dict　›　6-1-11 二維串列", "173": "第 6 章  list、tuple、set 與 dict　›　6-1-11 二維串列", "174": "第 6 章  list、tuple、set 與 dict　›　6-1-11 二維串列", "175": "第 6 章  list、tuple、set 與 dict　›　6-1-11 二維串列", "176": "第 6 章  list、tuple、set 與 dict　›　6-1-11 二維串列", "177": "第 6 章  list、tuple、set 與 dict　›　6-2-1 建立序對", "178": "第 6 章  list、tuple、set 與 dict　›　6-2-2 序對的運算", "179": "第 6 章  list、tuple、set 與 dict　›　6-2-2 序對的運算", "180": "第 6 章  list、tuple、set 與 dict　›　6-2-2 序對的運算", "181": "第 6 章  list、tuple、set 與 dict　›　6-2-2 序對的運算", "182": "第 6 章  list、tuple、set 與 dict　›　6-3-1 建立集合", "183": "第 6 章  list、tuple、set 與 dict　›　6-3-2 內建函式", "184": "第 6 章  list、tuple、set 與 dict　›　6-3-3 運算子", "185": "第 6 章  list、tuple、set 與 dict　›　6-3-3 運算子", "186": "第 6 章  list、tuple、set 與 dict　›　6-3-4 集合處理方法", "187": "第 6 章  list、tuple、set 與 dict　›　6-3-4 集合處理方法", "188": "第 6 章  list、tuple、set 與 dict　›　6-3-4 集合處理方法", "189": "第 6 章  list、tuple、set 與 dict　›　6-3-4 集合處理方法", "190": "第 6 章  list、tuple、set 與 dict　›　6-3-4 集合處理方法", "191": "第 6 章  list、tuple、set 與 dict　›　6-3-4 集合處理方法", "192": "第 6 章  list、tuple、set 與 dict　›　6-4-1 建立字典", "193": "第 6 章  list、tuple、set 與 dict　›　6-4-2 取得、新增、變更或刪除鍵：值對", "194": "第 6 章  list、tuple、set 與 dict　›　6-4-4 運算子", "195": "第 6 章  list、tuple、set 與 dict　›　6-4-4 運算子", "196": "第 6 章  list、tuple、set 與 dict　›　6-4-5 字典處理方法", "197": "第 6 章  list、tuple、set 與 dict　›　6-4-5 字典處理方法", "198": "第 6 章  list、tuple、set 與 dict　›　6-4-5 字典處理方法", "199": "第 6 章  list、tuple、set 與 dict　›　6-4-5 字典處理方法", "200": "第 6 章  list、tuple、set 與 dict　›　6-4-5 字典處理方法", "201": "第 6 章  list、tuple、set 與 dict　›　學習評量", "202": "第 6 章  list、tuple、set 與 dict　›　學習評量", "203": "第 6 章  list、tuple、set 與 dict　›　學習評量", "204": "第 6 章  list、tuple、set 與 dict　›　學習評量", "205": "第 9 章  物件導向", "206": "第 9 章  物件導向　›　9-1 認識物件導向", "207": "第 9 章  物件導向　›　9-1 認識物件導向", "208": "第 9 章  物件導向　›　9-1 認識物件導向", "209": "第 9 章  物件導向　›　9-1 認識物件導向", "210": "第 9 章  物件導向　›　9-2 使用類別與物件", "211": "第 9 章  物件導向　›　9-2-1 定義類別", "212": "第 9 章  物件導向　›　9-2-2 建立物件", "213": "第 9 章  物件導向　›　9-2-2 建立物件", "214": "第 9 章  物件導向　›　9-2-2 建立物件", "215": "第 9 章  物件導向　›　9-2-3 __init__() 方法", "216": "第 9 章  物件導向　›　9-2-3 __init__() 方法", "217": "第 9 章  物件導向　›　9-2-4 匿名物件", "218": "第 9 章  物件導向　›　9-2-5 私有成員 (私有屬性與私有方法)", "219": "第 9 章  物件導向　›　9-2-5 私有成員 (私有屬性與私有方法)", "220": "第 9 章  物件導向　›　9-2-5 私有成員 (私有屬性與私有方法)", "221": "第 9 章  物件導向　›　9-2-5 私有成員 (私有屬性與私有方法)", "222": "第 9 章  物件導向　›　9-3 繼承", "223": "第 9 章  物件導向　›　9-3 繼承", "224": "第 9 章  物件導向　›　9-3-1 定義子類別", "225": "第 9 章  物件導向　›　9-3-1 定義子類別", "226": "第 9 章  物件導向　›　9-3-1 定義子類別", "227": "第 9 章  物件導向　›　9-3-1 定義子類別", "228": "第 9 章  物件導向　›　9-3-2 覆蓋繼承自父類別的方法", "229": "第 9 章  物件導向　›　9-3-2 覆蓋繼承自父類別的方法", "230": "第 9 章  物件導向　›　9-3-3 呼叫父類別內被覆蓋的方法", "231": "第 9 章  物件導向　›　9-3-3 呼叫父類別內被覆蓋的方法", "232": "第 9 章  物件導向　›　9-3-3 呼叫父類別內被覆蓋的方法", "233": "第 9 章  物件導向　›　9-3-4 isinstance() 與 issubclass() 函式", "234": "第 9 章  物件導向　›　9-3-4 isinstance() 與 issubclass() 函式", "235": "第 9 章  物件導向　›　9-3-4 isinstance() 與 issubclass() 函式", "236": "第 9 章  物件導向　›　9-4 多型", "237": "第 9 章  物件導向　›　9-4 多型", "238": "第 9 章  物件導向　›　9-4 多型", "239": "第 9 章  物件導向　›　學習評量", "240": "第 9 章  物件導向　›　學習評量", "241": "第 9 章  物件導向　›　學習評量", "242": "第 9 章  物件導向　›　學習評量"};
+const TREE=[{"t": "封面", "k": "", "p": 0}, {"t": "原書目錄", "k": "", "p": 1, "c": [{"t": "第 1 頁", "k": "", "p": 1}, {"t": "第 2 頁", "k": "", "p": 2}, {"t": "第 3 頁", "k": "", "p": 3}, {"t": "第 4 頁", "k": "", "p": 4}, {"t": "第 5 頁", "k": "", "p": 5}, {"t": "第 6 頁", "k": "", "p": 6}, {"t": "第 7 頁", "k": "", "p": 7}, {"t": "第 8 頁", "k": "", "p": 8}, {"t": "第 9 頁", "k": "", "p": 9}, {"t": "第 10 頁", "k": "", "p": 10}]}, {"t": "型別、變數與運算子", "k": "第2章", "p": 11, "c": [{"t": "型別", "k": "2-1", "p": 12, "c": [{"t": "數值型別 (int、float、complex、bool)", "k": "2-1-1", "p": 13}, {"t": "字串型別 (str)", "k": "2-1-2", "p": 15}, {"t": "list (串列)、tuple (序對)、set (集合) 與 dict (字典)", "k": "2-1-3", "p": 17}]}, {"t": "變數", "k": "2-2", "p": 19, "c": [{"t": "變數的命名規則", "k": "2-2-1", "p": 19}, {"t": "設定變數的值", "k": "2-2-2", "p": 20}]}, {"t": "常數", "k": "2-3", "p": 23, "c": []}, {"t": "運算子", "k": "2-4", "p": 24, "c": [{"t": "算術運算子", "k": "2-4-1", "p": 25}, {"t": "移位運算子", "k": "2-4-2", "p": 28}, {"t": "位元運算子", "k": "2-4-3", "p": 29}, {"t": "比較運算子", "k": "2-4-4", "p": 30}, {"t": "指派運算子", "k": "2-4-5", "p": 31}, {"t": "邏輯運算子", "k": "2-4-6", "p": 32}, {"t": "其它特殊符號", "k": "2-4-7", "p": 34}, {"t": "運算子的優先順序", "k": "2-4-8", "p": 35}]}, {"t": "輸出", "k": "2-5", "p": 37, "c": []}, {"t": "輸入", "k": "2-6", "p": 38, "c": []}, {"t": "學習評量", "k": "", "p": 42, "c": []}]}, {"t": "數值與字串處理", "k": "第3章", "p": 45, "c": [{"t": "數值處理函式", "k": "3-1", "p": 46, "c": [{"t": "內建數值函式", "k": "3-1-1", "p": 46}, {"t": "數學函式", "k": "3-1-2", "p": 49}, {"t": "亂數函式", "k": "3-1-3", "p": 54}]}, {"t": "字串與字元", "k": "3-2", "p": 57, "c": [{"t": "ASCII 與 Unicode", "k": "3-2-1", "p": 57}, {"t": "跳脫序列", "k": "3-2-2", "p": 58}, {"t": "內建字串函式", "k": "3-2-3", "p": 59}, {"t": "連接運算子", "k": "3-2-4", "p": 60}, {"t": "重複運算子", "k": "3-2-5", "p": 60}, {"t": "比較運算子", "k": "3-2-6", "p": 61}, {"t": "in 與 not in 運算子", "k": "3-2-7", "p": 61}, {"t": "索引與切片運算子", "k": "3-2-8", "p": 62}]}, {"t": "字串處理方法", "k": "3-3", "p": 65, "c": [{"t": "字串轉換方法", "k": "3-3-1", "p": 66}, {"t": "字串測試方法", "k": "3-3-2", "p": 67}, {"t": "搜尋子字串方法", "k": "3-3-3", "p": 69}, {"t": "刪除指定的字元或空白方法", "k": "3-3-4", "p": 70}, {"t": "格式化方法", "k": "3-3-5", "p": 71}]}, {"t": "數值與字串格式化", "k": "3-4", "p": 74, "c": []}, {"t": "f-string 格式化字串實字", "k": "3-5", "p": 78, "c": []}, {"t": "學習評量", "k": "", "p": 80, "c": []}]}, {"t": "流程控制", "k": "第4章", "p": 83, "c": [{"t": "認識流程控制", "k": "4-1", "p": 84, "c": []}, {"t": "if", "k": "4-2", "p": 85, "c": [{"t": "單向 if", "k": "4-2-1", "p": 85}, {"t": "雙向 if…else", "k": "4-2-2", "p": 87}, {"t": "多向 if…elif…else", "k": "4-2-3", "p": 90}, {"t": "巢狀 if", "k": "4-2-4", "p": 94}]}, {"t": "for", "k": "4-3", "p": 96, "c": []}, {"t": "while", "k": "4-4", "p": 107, "c": []}, {"t": "break 與 continue 敘述", "k": "4-5", "p": 112, "c": []}, {"t": "學習評量", "k": "", "p": 115, "c": []}]}, {"t": "函式", "k": "第5章", "p": 117, "c": [{"t": "認識函式", "k": "5-1", "p": 118, "c": []}, {"t": "定義函式", "k": "5-2", "p": 119, "c": []}, {"t": "呼叫函式", "k": "5-3", "p": 121, "c": []}, {"t": "函式的參數", "k": "5-4", "p": 124, "c": [{"t": "參數傳遞方式", "k": "5-4-1", "p": 124}, {"t": "關鍵字引數", "k": "5-4-2", "p": 126}, {"t": "預設引數值", "k": "5-4-3", "p": 127}, {"t": "任意引數串列", "k": "5-4-4", "p": 128}]}, {"t": "函式的傳回值", "k": "5-5", "p": 131, "c": []}, {"t": "全域變數與區域變數", "k": "5-6", "p": 133, "c": []}, {"t": "遞迴函式", "k": "5-7", "p": 134, "c": []}, {"t": "lambda 運算式", "k": "5-8", "p": 138, "c": []}, {"t": "日期時間函式", "k": "5-9", "p": 139, "c": [{"t": "time 模組", "k": "5-9-1", "p": 139}, {"t": "calendar 模組", "k": "5-9-2", "p": 144}]}, {"t": "學習評量", "k": "", "p": 149, "c": []}]}, {"t": "list、tuple、set 與 dict", "k": "第6章", "p": 153, "c": [{"t": "list (串列)", "k": "6-1", "p": 154, "c": [{"t": "建立串列", "k": "6-1-1", "p": 154}, {"t": "內建函式", "k": "6-1-2", "p": 156}, {"t": "連接運算子", "k": "6-1-3", "p": 157}, {"t": "重複運算子", "k": "6-1-4", "p": 157}, {"t": "比較運算子", "k": "6-1-5", "p": 157}, {"t": "in 與 not in 運算子", "k": "6-1-6", "p": 158}, {"t": "索引與切片運算子", "k": "6-1-7", "p": 158}, {"t": "串列處理方法", "k": "6-1-8", "p": 162}, {"t": "串列推導式", "k": "6-1-9", "p": 165}, {"t": "del 敘述", "k": "6-1-10", "p": 168}, {"t": "二維串列", "k": "6-1-11", "p": 169}]}, {"t": "tuple (序對)", "k": "6-2", "p": 177, "c": [{"t": "建立序對", "k": "6-2-1", "p": 177}, {"t": "序對的運算", "k": "6-2-2", "p": 178}]}, {"t": "set (集合)", "k": "6-3", "p": 182, "c": [{"t": "建立集合", "k": "6-3-1", "p": 182}, {"t": "內建函式", "k": "6-3-2", "p": 183}, {"t": "運算子", "k": "6-3-3", "p": 184}, {"t": "集合處理方法", "k": "6-3-4", "p": 186}]}, {"t": "dict (字典)", "k": "6-4", "p": 192, "c": [{"t": "建立字典", "k": "6-4-1", "p": 192}, {"t": "取得、新增、變更或刪除鍵：值對", "k": "6-4-2", "p": 193}, {"t": "內建函式", "k": "6-4-3", "p": 194}, {"t": "運算子", "k": "6-4-4", "p": 194}, {"t": "字典處理方法", "k": "6-4-5", "p": 196}]}, {"t": "學習評量", "k": "", "p": 201, "c": []}]}, {"t": "物件導向", "k": "第9章", "p": 205, "c": [{"t": "認識物件導向", "k": "9-1", "p": 206, "c": []}, {"t": "使用類別與物件", "k": "9-2", "p": 210, "c": [{"t": "定義類別", "k": "9-2-1", "p": 211}, {"t": "建立物件", "k": "9-2-2", "p": 212}, {"t": "__init__() 方法", "k": "9-2-3", "p": 215}, {"t": "匿名物件", "k": "9-2-4", "p": 217}, {"t": "私有成員 (私有屬性與私有方法)", "k": "9-2-5", "p": 218}]}, {"t": "繼承", "k": "9-3", "p": 222, "c": [{"t": "定義子類別", "k": "9-3-1", "p": 224}, {"t": "覆蓋繼承自父類別的方法", "k": "9-3-2", "p": 228}, {"t": "呼叫父類別內被覆蓋的方法", "k": "9-3-3", "p": 230}, {"t": "isinstance() 與 issubclass() 函式", "k": "9-3-4", "p": 233}]}, {"t": "多型", "k": "9-4", "p": 236, "c": []}, {"t": "學習評量", "k": "", "p": 239, "c": []}]}];
+
+let cur=-1; const rows={};
+function build(nodes,ul,lvl){
+  for(const n of nodes){
+    const kids=n.c&&n.c.length;
+    const li=document.createElement('li');
+    li.className='lvl'+lvl+(kids?' closed':'');
+    const row=document.createElement('div');
+    row.className='row';row.tabIndex=0;row.setAttribute('role','button');
+    const tg=document.createElement('span');tg.className='tg';
+    tg.textContent=kids?'▸':'';
+    const k=document.createElement('span');k.className='k';k.textContent=n.k||'';
+    const t=document.createElement('span');t.textContent=n.t;
+    row.append(tg,k,t);
+    row.onclick=()=>{
+      const wasClosed=li.classList.contains('closed');
+      go(n.p,true,false);                       // 跳頁，但不自動展開
+      if(kids){                                 // 點一次展開、再點一次收合
+        li.classList.toggle('closed',!wasClosed);
+        tg.textContent=li.classList.contains('closed')?'▸':'▾';
+      }
+      if(innerWidth<=860&&!kids)document.body.classList.remove('open');
+    };
+    row.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();row.onclick();}};
+    if(!(n.p in rows)||lvl>=rows[n.p].lvl)rows[n.p]={el:row,li,lvl};
+    li.append(row);
+    if(kids){const s=document.createElement('ul');s.className='n';build(n.c,s,lvl+1);li.append(s);}
+    ul.append(li);
+  }
+}
+build(TREE,document.getElementById('tree'),0);
+
+function openTo(li){                            // 展開某列的所有上層
+  while(li&&li.id!=='tree'){
+    if(li.tagName==='LI'){
+      li.classList.remove('closed');
+      const tg=li.querySelector(':scope > .row > .tg');
+      if(tg&&tg.textContent)tg.textContent='▾';
+    }
+    li=li.parentElement;
+  }
+}
+function go(p,push=true,expand=true){
+  if(p<0||p>=PAGES.length||p===cur)return;
+  cur=p;
+  document.getElementById('img').src='img/'+PAGES[p];
+  document.getElementById('pin').value=p+1;
+  document.getElementById('lab').textContent=LABELS[p]||'';
+  document.getElementById('crumb').textContent=CRUMBS[p]||'';
+  document.getElementById('zL').disabled=(p===0);
+  document.getElementById('zR').disabled=(p===PAGES.length-1);
+  document.querySelectorAll('.row.cur').forEach(e=>e.classList.remove('cur'));
+  let best=null;
+  for(const k in rows)if(+k<=p&&(best===null||+k>best))best=+k;
+  if(best!==null){
+    const r=rows[best];
+    if(expand)openTo(r.li);
+    // 目錄收起來時，改標示看得到的最近上層（例如整章那一列）
+    let li=r.li,el=r.el;
+    while(li&&!li.offsetParent){
+      li=li.parentElement&&li.parentElement.closest('li');
+      el=li?li.querySelector(':scope > .row'):null;
+    }
+    if(el){el.classList.add('cur');el.scrollIntoView({block:'nearest'});}
+  }
+  if(push)history.replaceState(null,'','#p'+(p+1));
+  window.scrollTo(0,0);
+  if(p+1<PAGES.length){const im=new Image();im.src='img/'+PAGES[p+1];}
+}
+const step=d=>go(cur+d,true,false);             // 翻頁一律不強制展開目錄
+function filterTree(q){
+  q=q.trim().toLowerCase();
+  document.querySelectorAll('#tree li').forEach(li=>{
+    li.style.display=(!q||li.textContent.toLowerCase().includes(q))?'':'none';
+    if(q)li.classList.remove('closed');
+  });
+}
+document.addEventListener('keydown',e=>{
+  if(e.target.tagName==='INPUT')return;
+  if(e.key==='ArrowRight'||e.key==='PageDown'){step(1);e.preventDefault();}
+  if(e.key==='ArrowLeft'||e.key==='PageUp'){step(-1);e.preventDefault();}
+  if(e.key==='Home')go(0,true,false);
+  if(e.key==='End')go(PAGES.length-1,true,false);
+});
+addEventListener('hashchange',()=>{const m=location.hash.match(/p(\d+)/);if(m)go(+m[1]-1,false,false);});
+const m0=location.hash.match(/p(\d+)/);
+go(m0?+m0[1]-1:0,false,false);   // 一開始目錄全部收合
+
+</script>
+</body>
+</html>
