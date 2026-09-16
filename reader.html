@@ -66,8 +66,8 @@ background:var(--bg);color:var(--ink);font:inherit}
 color:var(--mark-ink);padding:2px 8px;border-radius:4px;min-width:3.4em;text-align:center}
 #crumb{flex:1;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:120px}
 #view{flex:1;display:flex;justify-content:center;align-items:flex-start;padding:18px}
-#view img{height:auto;background:#fff;box-shadow:var(--shadow);border-radius:2px}
-#view.fit img{max-height:calc(100vh - 94px);width:auto}
+#view img{width:auto;height:auto;max-height:calc(100vh - 94px);background:#fff;
+box-shadow:var(--shadow);border-radius:2px}
 /* 左右兩側的隱形翻頁區 */
 .zone{position:fixed;top:58px;bottom:0;width:clamp(58px,11vw,150px);z-index:4;border:0;padding:0;
 background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent;
@@ -102,9 +102,8 @@ rgba(128,128,128,.16),rgba(128,128,128,0))}
     <span id="pg">第 <input id="pin" value="1" aria-label="頁碼" onchange="go(+this.value-1,true,false)"> / 243
       <span id="lab"></span></span>
     <span id="crumb"></span>
-    <button onclick="document.getElementById('view').classList.toggle('fit')">整頁 / 寬度</button>
   </div>
-  <div id="view" class="fit"><img id="img" alt="講義頁面"></div>
+  <div id="view"><img id="img" alt="講義頁面"></div>
 </div>
 <button class="zone" id="zL" aria-label="上一頁" onclick="step(-1)">‹</button>
 <button class="zone" id="zR" aria-label="下一頁" onclick="step(1)">›</button>
