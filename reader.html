@@ -156,9 +156,11 @@ function build(nodes,ul,lvl){
       }else{
         shut(li);                               // 收合時子目錄一起收
       }
+      const c=document.querySelector('.row.cur');   // 標示的那列被收掉 → 改標示看得到的
+      if(c&&cur>=0&&!c.closest('li').offsetParent)go(cur,false,false);
     };
     row.onclick=()=>{                           // 點文字只跳頁，不展開
-      go(n.p,true,false);
+      go(n.p,true,false,row);
       if(innerWidth<=860)setNav(false);
     };
     row.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();row.onclick();}};
@@ -180,7 +182,7 @@ function openTo(li){                            // 展開某列的所有上層
     li=li.parentElement;
   }
 }
-function go(p,push=true,expand=true){
+function go(p,push=true,expand=true,el=null){   // el＝你實際點的那一列
   if(p<0||p>=PAGES.length)return;
   cur=p;
   document.getElementById('img').src='img/'+PAGES[p];
@@ -195,18 +197,18 @@ function go(p,push=true,expand=true){
   if(best!==null){
     const list=rows[best];
     if(expand)list.forEach(r=>openTo(r.li));
-    // 同一頁對應的每一列都標示（例如 2-2 與 2-2-1 在同一頁）
-    let first=null;
-    for(const r of list)if(r.li.offsetParent){r.el.classList.add('cur');if(!first)first=r.el;}
-    if(!first){            // 全部被收起來 → 改標示看得到的最近上層
-      let li=list[0].li,el=list[0].el;
+    let pick=null;
+    if(el)for(const r of list)if(r.el===el&&r.li.offsetParent)pick=el;   // 點哪一列就標哪一列
+    if(!pick)for(const r of list)if(r.li.offsetParent)pick=r.el;         // 翻頁時取看得到的最深那列
+    if(!pick){                                                          // 全被收起來 → 往上找看得到的
+      let li=list[0].li,e=list[0].el;
       while(li&&!li.offsetParent){
         li=li.parentElement&&li.parentElement.closest('li');
-        el=li?li.querySelector(':scope > .row'):null;
+        e=li?li.querySelector(':scope > .row'):null;
       }
-      if(el){el.classList.add('cur');first=el;}
+      pick=e;
     }
-    if(first)first.scrollIntoView({block:'nearest'});
+    if(pick){pick.classList.add('cur');pick.scrollIntoView({block:'nearest'});}
   }
   if(push)history.replaceState(null,'','#p'+(p+1));
   window.scrollTo(0,0);
