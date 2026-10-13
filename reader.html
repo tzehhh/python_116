@@ -282,18 +282,22 @@ addEventListener('hashchange',()=>{const m=location.hash.match(/p(\d+)/);if(m)go
 const m0=location.hash.match(/p(\d+)/);
 go(m0?+m0[1]-1:0,false,false);   // 一開始目錄全部收合
 
-// 閒置時依序把目錄會跳到的頁面先抓進瀏覽器快取，之後點目錄就不用等。
-// 不保留參考（交給 HTTP 快取），省記憶體；行動網路省流量模式或 2G 則略過。
+// 一載入就在背景把整本書的圖片全部抓進瀏覽器快取，之後點目錄或翻頁都是瞬間。
+// 先抓目錄會跳到的頁，再抓其餘頁；同時最多 6 個請求，不保留記憶體參考。
+// 行動網路的省流量模式或 2G 環境則整個略過。
 (function warm(){
   const c=navigator.connection;
-  if(c&&(c.saveData||/(^|-)2g$/.test(c.effectiveType||'')))return;
-  const idle=window.requestIdleCallback||(fn=>setTimeout(fn,350));
-  const list=Object.keys(rows).map(Number).sort((a,b)=>a-b);
-  let i=0;
-  (function step(){
-    if(i>=list.length)return;
-    new Image().src='img/'+PAGES[list[i++]];
-    idle(()=>setTimeout(step,250));
+  if(c&&(c.saveData||/^(slow-)?2g$/.test(c.effectiveType||'')))return;
+  const hot=new Set(Object.keys(rows).map(Number));
+  const queue=[...hot].sort((a,b)=>a-b);
+  for(let i=0;i<PAGES.length;i++)if(!hot.has(i))queue.push(i);
+  let next=0,live=0;
+  (function pump(){
+    while(live<6&&next<queue.length){
+      const im=new Image();live++;
+      im.onload=im.onerror=()=>{live--;pump();};
+      im.src='img/'+PAGES[queue[next++]];
+    }
   })();
 })();
 
