@@ -35,6 +35,24 @@ background:var(--panel);color:var(--ink);border-radius:6px;padding:5px 11px;font
 font-size:17px;line-height:1;cursor:pointer}
 #close:hover{background:var(--hover)}
 #scrim{display:none;position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:11}
+#hint{position:fixed;inset:0;z-index:30;display:flex;align-items:center;justify-content:center;
+background:rgba(10,12,16,.62);padding:20px;cursor:pointer}
+#hint[hidden]{display:none}
+#hint .edge{position:absolute;top:0;bottom:0;width:clamp(58px,11vw,150px);
+display:flex;align-items:center;justify-content:center;font-size:40px;color:#fff;
+background:rgba(255,255,255,.1);border:2px dashed rgba(255,255,255,.4)}
+#hint .edge.l{left:var(--sw);border-width:0 2px 0 0}
+#hint .edge.r{right:0;border-width:0 0 0 2px}
+#hint .card{background:var(--panel);color:var(--ink);border-radius:12px;padding:24px 26px;
+max-width:340px;box-shadow:0 8px 40px rgba(0,0,0,.4);text-align:center;cursor:default}
+#hint h2{font-family:"Noto Serif TC",Georgia,serif;font-size:19px;margin:0 0 12px}
+#hint p{margin:0 0 10px;line-height:1.75;font-size:14px}
+#hint .k{font-family:"JetBrains Mono",ui-monospace,monospace;background:var(--hover);
+border:1px solid var(--line);border-radius:4px;padding:1px 6px;font-size:13px}
+#hint .sub{color:var(--muted);font-size:13px;margin-bottom:18px}
+#hint button{background:var(--acc);color:var(--acc-ink);border:0;border-radius:7px;
+padding:9px 26px;font:inherit;font-weight:500;cursor:pointer}
+#hint button:hover{filter:brightness(1.08)}
 .brand .eyebrow{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .brand h1{font-family:"Noto Serif TC",Georgia,serif;font-weight:700;font-size:19px;
 line-height:1.3;margin:5px 0 0;text-wrap:balance}
@@ -84,19 +102,19 @@ border-radius:50%;animation:spin .7s linear infinite}
 .zone{position:fixed;top:58px;bottom:0;width:clamp(58px,11vw,150px);z-index:4;border:0;padding:0;
 background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent;
 display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:34px;
-line-height:1;opacity:0;transition:opacity .18s}
-.zone:hover,.zone:focus-visible{opacity:.42;background:linear-gradient(var(--dir),
+line-height:1;opacity:.32;transition:opacity .18s}
+.zone:hover,.zone:focus-visible{opacity:.65;background:linear-gradient(var(--dir),
 rgba(128,128,128,.16),rgba(128,128,128,0))}
 .zone:focus-visible{outline:2px solid var(--acc);outline-offset:-3px;opacity:.6}
-.zone[disabled]{cursor:default}
-.zone[disabled]:hover{opacity:0;background:transparent}
+.zone[disabled]{cursor:default;opacity:.08}
+.zone[disabled]:hover{opacity:.08;background:transparent}
 #zL{left:var(--sw);--dir:to right}
 #zR{right:0;--dir:to left}
 #menu{font-size:17px;line-height:1;padding:5px 12px}
 @media (max-width:860px){body.nav{--sw:0px}
 #side{width:min(322px,88vw)}#crumb{display:none}
 #close{display:block}body.nav #scrim{display:block}
-.zone{opacity:0}}
+.zone{opacity:.34}}
 @media (prefers-reduced-motion:reduce){#side,.zone{transition:none}}
 </style>
 </head>
@@ -123,6 +141,17 @@ rgba(128,128,128,.16),rgba(128,128,128,0))}
 </div>
 <button class="zone" id="zL" aria-label="上一頁" onclick="step(-1)">‹</button>
 <button class="zone" id="zR" aria-label="下一頁" onclick="step(1)">›</button>
+<div id="hint" hidden onclick="closeHint()">
+  <div class="edge l">‹</div>
+  <div class="edge r">›</div>
+  <div class="card" onclick="event.stopPropagation()">
+    <h2>怎麼翻頁</h2>
+    <p>點畫面<b>左右兩側</b>的區域，就能往前或往後翻一頁。</p>
+    <p>也可以用鍵盤的 <span class="k">←</span> <span class="k">→</span> 鍵。</p>
+    <p class="sub">左上角的 ☰ 可以開關章節目錄。</p>
+    <button onclick="closeHint()">知道了</button>
+  </div>
+</div>
 <script>
 const PAGES=["000.webp", "001.webp", "002.webp", "003.webp", "004.webp", "005.webp", "006.webp", "007.webp", "008.webp", "009.webp", "010.webp", "011.webp", "012.webp", "013.webp", "014.webp", "015.webp", "016.webp", "017.webp", "018.webp", "019.webp", "020.webp", "021.webp", "022.webp", "023.webp", "024.webp", "025.webp", "026.webp", "027.webp", "028.webp", "029.webp", "030.webp", "031.webp", "032.webp", "033.webp", "034.webp", "035.webp", "036.webp", "037.webp", "038.webp", "039.webp", "040.webp", "041.webp", "042.webp", "043.webp", "044.webp", "045.webp", "046.webp", "047.webp", "048.webp", "049.webp", "050.webp", "051.webp", "052.webp", "053.webp", "054.webp", "055.webp", "056.webp", "057.webp", "058.webp", "059.webp", "060.webp", "061.webp", "062.webp", "063.webp", "064.webp", "065.webp", "066.webp", "067.webp", "068.webp", "069.webp", "070.webp", "071.webp", "072.webp", "073.webp", "074.webp", "075.webp", "076.webp", "077.webp", "078.webp", "079.webp", "080.webp", "081.webp", "082.webp", "083.webp", "084.webp", "085.webp", "086.webp", "087.webp", "088.webp", "089.webp", "090.webp", "091.webp", "092.webp", "093.webp", "094.webp", "095.webp", "096.webp", "097.webp", "098.webp", "099.webp", "100.webp", "101.webp", "102.webp", "103.webp", "104.webp", "105.webp", "106.webp", "107.webp", "108.webp", "109.webp", "110.webp", "111.webp", "112.webp", "113.webp", "114.webp", "115.webp", "116.webp", "117.webp", "118.webp", "119.webp", "120.webp", "121.webp", "122.webp", "123.webp", "124.webp", "125.webp", "126.webp", "127.webp", "128.webp", "129.webp", "130.webp", "131.webp", "132.webp", "133.webp", "134.webp", "135.webp", "136.webp", "137.webp", "138.webp", "139.webp", "140.webp", "141.webp", "142.webp", "143.webp", "144.webp", "145.webp", "146.webp", "147.webp", "148.webp", "149.webp", "150.webp", "151.webp", "152.webp", "153.webp", "154.webp", "155.webp", "156.webp", "157.webp", "158.webp", "159.webp", "160.webp", "161.webp", "162.webp", "163.webp", "164.webp", "165.webp", "166.webp", "167.webp", "168.webp", "169.webp", "170.webp", "171.webp", "172.webp", "173.webp", "174.webp", "175.webp", "176.webp", "177.webp", "178.webp", "179.webp", "180.webp", "181.webp", "182.webp", "183.webp", "184.webp", "185.webp", "186.webp", "187.webp", "188.webp", "189.webp", "190.webp", "191.webp", "192.webp", "193.webp", "194.webp", "195.webp", "196.webp", "197.webp", "198.webp", "199.webp", "200.webp", "201.webp", "202.webp", "203.webp", "204.webp", "205.webp", "206.webp", "207.webp", "208.webp", "209.webp", "210.webp", "211.webp", "212.webp", "213.webp", "214.webp", "215.webp", "216.webp", "217.webp", "218.webp", "219.webp", "220.webp", "221.webp", "222.webp", "223.webp", "224.webp", "225.webp", "226.webp", "227.webp", "228.webp", "229.webp", "230.webp", "231.webp", "232.webp", "233.webp", "234.webp", "235.webp", "236.webp", "237.webp", "238.webp", "239.webp", "240.webp", "241.webp", "242.webp"];
 const LABELS={"0": "封面", "1": "目錄 1", "2": "目錄 2", "3": "目錄 3", "4": "目錄 4", "5": "目錄 5", "6": "目錄 6", "7": "目錄 7", "8": "目錄 8", "9": "目錄 9", "10": "目錄 10", "11": "第 2 章", "12": "2-2", "13": "2-3", "14": "2-4", "15": "2-5", "16": "2-6", "17": "2-7", "18": "2-8", "19": "2-9", "20": "2-10", "21": "2-11", "22": "2-12", "23": "2-13", "24": "2-14", "25": "2-15", "26": "2-16", "27": "2-17", "28": "2-18", "29": "2-19", "30": "2-20", "31": "2-21", "32": "2-22", "33": "2-23", "34": "2-24", "35": "2-25", "36": "2-26", "37": "2-27", "38": "2-28", "39": "2-29", "40": "2-30", "41": "2-31", "42": "2-32", "43": "2-33", "44": "2-34", "45": "第 3 章", "46": "3-2", "47": "3-3", "48": "3-4", "49": "3-5", "50": "3-6", "51": "3-7", "52": "3-8", "53": "3-9", "54": "3-10", "55": "3-11", "56": "3-12", "57": "3-13", "58": "3-14", "59": "3-15", "60": "3-16", "61": "3-17", "62": "3-18", "63": "3-19", "64": "3-20", "65": "3-21", "66": "3-22", "67": "3-23", "68": "3-24", "69": "3-25", "70": "3-26", "71": "3-27", "72": "3-28", "73": "3-29", "74": "3-30", "75": "3-31", "76": "3-32", "77": "3-33", "78": "3-34", "79": "3-35", "80": "3-36", "81": "3-37", "82": "3-38", "83": "第 4 章", "84": "4-2", "85": "4-3", "86": "4-4", "87": "4-5", "88": "4-6", "89": "4-7", "90": "4-8", "91": "4-9", "92": "4-10", "93": "4-11", "94": "4-12", "95": "4-13", "96": "4-14", "97": "4-15", "98": "4-16", "99": "4-17", "100": "4-18", "101": "4-19", "102": "4-20", "103": "4-21", "104": "4-22", "105": "4-23", "106": "4-24", "107": "4-25", "108": "4-26", "109": "4-27", "110": "4-28", "111": "4-29", "112": "4-30", "113": "4-31", "114": "4-32", "115": "4-33", "116": "4-34", "117": "第 5 章", "118": "5-2", "119": "5-3", "120": "5-4", "121": "5-5", "122": "5-6", "123": "5-7", "124": "5-8", "125": "5-9", "126": "5-10", "127": "5-11", "128": "5-12", "129": "5-13", "130": "5-14", "131": "5-15", "132": "5-16", "133": "5-17", "134": "5-18", "135": "5-19", "136": "5-20", "137": "5-21", "138": "5-22", "139": "5-23", "140": "5-24", "141": "5-25", "142": "5-26", "143": "5-27", "144": "5-28", "145": "5-29", "146": "5-30", "147": "5-31", "148": "5-32", "149": "5-33", "150": "5-34", "151": "5-35", "152": "5-36", "153": "第 6 章", "154": "6-2", "155": "6-3", "156": "6-4", "157": "6-5", "158": "6-6", "159": "6-7", "160": "6-8", "161": "6-9", "162": "6-10", "163": "6-11", "164": "6-12", "165": "6-13", "166": "6-14", "167": "6-15", "168": "6-16", "169": "6-17", "170": "6-18", "171": "6-19", "172": "6-20", "173": "6-21", "174": "6-22", "175": "6-23", "176": "6-24", "177": "6-25", "178": "6-26", "179": "6-27", "180": "6-28", "181": "6-29", "182": "6-30", "183": "6-31", "184": "6-32", "185": "6-33", "186": "6-34", "187": "6-35", "188": "6-36", "189": "6-37", "190": "6-38", "191": "6-39", "192": "6-40", "193": "6-41", "194": "6-42", "195": "6-43", "196": "6-44", "197": "6-45", "198": "6-46", "199": "6-47", "200": "6-48", "201": "6-49", "202": "6-50", "203": "6-51", "204": "6-52", "205": "第 9 章", "206": "9-2", "207": "9-3", "208": "9-4", "209": "9-5", "210": "9-6", "211": "9-7", "212": "9-8", "213": "9-9", "214": "9-10", "215": "9-11", "216": "9-12", "217": "9-13", "218": "9-14", "219": "9-15", "220": "9-16", "221": "9-17", "222": "9-18", "223": "9-19", "224": "9-20", "225": "9-21", "226": "9-22", "227": "9-23", "228": "9-24", "229": "9-25", "230": "9-26", "231": "9-27", "232": "9-28", "233": "9-29", "234": "9-30", "235": "9-31", "236": "9-32", "237": "9-33", "238": "9-34", "239": "9-35", "240": "9-36", "241": "9-37", "242": "9-38"};
@@ -273,6 +302,7 @@ function filterTree(q){
 }
 document.addEventListener('keydown',e=>{
   if(e.target.tagName==='INPUT')return;
+  if(!document.getElementById('hint').hidden){closeHint();e.preventDefault();return;}
   if(e.key==='ArrowRight'||e.key==='PageDown'){step(1);e.preventDefault();}
   if(e.key==='ArrowLeft'||e.key==='PageUp'){step(-1);e.preventDefault();}
   if(e.key==='Home')go(0,true,false);
@@ -281,6 +311,17 @@ document.addEventListener('keydown',e=>{
 addEventListener('hashchange',()=>{const m=location.hash.match(/p(\d+)/);if(m)go(+m[1]-1,false,false);});
 const m0=location.hash.match(/p(\d+)/);
 go(m0?+m0[1]-1:0,false,false);   // 一開始目錄全部收合
+
+// 第一次開啟時說明翻頁方式，看過一次就不再出現
+function closeHint(){
+  document.getElementById('hint').hidden=true;
+  try{localStorage.setItem('hint','1');}catch(e){}
+}
+(function(){
+  let seen=null;
+  try{seen=localStorage.getItem('hint');}catch(e){}
+  if(!seen)document.getElementById('hint').hidden=false;
+})();
 
 // 一載入就在背景把整本書的圖片全部抓進瀏覽器快取，之後點目錄或翻頁都是瞬間。
 // 先抓目錄會跳到的頁，再抓其餘頁；同時最多 6 個請求，不保留記憶體參考。
