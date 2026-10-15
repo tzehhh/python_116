@@ -101,8 +101,13 @@ border-radius:50%;animation:spin .7s linear infinite}
 /* 左右兩側的隱形翻頁區 */
 .zone{position:fixed;top:58px;bottom:0;width:clamp(58px,11vw,150px);z-index:4;border:0;padding:0;
 background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent;
-display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:34px;
-line-height:1;opacity:.32;transition:opacity .18s}
+display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;
+color:var(--muted);font-size:34px;line-height:1;opacity:.32;transition:opacity .35s}
+.zone .lbl{font-size:13px;letter-spacing:.1em;white-space:nowrap;opacity:0;
+transition:opacity .35s;font-family:"Noto Sans TC",system-ui,sans-serif}
+body.peek .zone{opacity:.75}
+body.peek .zone .lbl{opacity:1}
+body.peek .zone[disabled]{opacity:.12}
 .zone:hover,.zone:focus-visible{opacity:.65;background:linear-gradient(var(--dir),
 rgba(128,128,128,.16),rgba(128,128,128,0))}
 .zone:focus-visible{outline:2px solid var(--acc);outline-offset:-3px;opacity:.6}
@@ -139,13 +144,12 @@ rgba(128,128,128,.16),rgba(128,128,128,0))}
   </div>
   <div id="view" class="fit"><img id="img" alt="講義頁面"></div>
 </div>
-<button class="zone" id="zL" aria-label="上一頁" onclick="step(-1)">‹</button>
-<button class="zone" id="zR" aria-label="下一頁" onclick="step(1)">›</button>
+<button class="zone" id="zL" aria-label="上一頁" onclick="step(-1)"><span>‹</span><span class="lbl">上一頁</span></button>
+<button class="zone" id="zR" aria-label="下一頁" onclick="step(1)"><span>›</span><span class="lbl">下一頁</span></button>
 <div id="hint" hidden onclick="closeHint()">
   <div class="edge l">‹</div>
   <div class="edge r">›</div>
   <div class="card" onclick="event.stopPropagation()">
-    <h2>怎麼翻頁</h2>
     <p>點畫面<b>左右兩側</b>的區域，就能往前或往後翻一頁。</p>
     <p>也可以用鍵盤的 <span class="k">←</span> <span class="k">→</span> 鍵。</p>
     <p class="sub">左上角的 ☰ 可以開關章節目錄。</p>
@@ -313,14 +317,22 @@ const m0=location.hash.match(/p(\d+)/);
 go(m0?+m0[1]-1:0,false,false);   // 一開始目錄全部收合
 
 // 第一次開啟時說明翻頁方式，看過一次就不再出現
+function peek(){                      // 短暫把「上一頁／下一頁」秀出來，再淡回平常的樣子
+  document.body.classList.add('peek');
+  clearTimeout(peek.t);
+  peek.t=setTimeout(()=>document.body.classList.remove('peek'),5000);
+}
 function closeHint(){
   document.getElementById('hint').hidden=true;
   try{localStorage.setItem('hint','1');}catch(e){}
+  peek();
 }
 (function(){
   let seen=null;
   try{seen=localStorage.getItem('hint');}catch(e){}
-  if(!seen)document.getElementById('hint').hidden=false;
+  if(location.search.indexOf('hint')>=0)seen=null;   // 網址加 ?hint 可以再看一次說明
+  if(seen)peek();                     // 看過說明了 → 直接秀一下翻頁提示
+  else document.getElementById('hint').hidden=false;
 })();
 
 // 一載入就在背景把整本書的圖片全部抓進瀏覽器快取，之後點目錄或翻頁都是瞬間。
